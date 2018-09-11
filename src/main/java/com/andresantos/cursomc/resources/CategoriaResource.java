@@ -21,8 +21,9 @@ import com.andresantos.cursomc.services.CategoriaService;
 	
 	@Autowired
 	private CategoriaService service;
+	
 	@RequestMapping(value="/{id}", method=RequestMethod.GET)
-	public ResponseEntity<?> find(@PathVariable Integer id) {
+	public ResponseEntity<Categoria> find(@PathVariable Integer id) {
 		
 		Categoria obj = service.find(id);
 		return ResponseEntity.ok().body(obj);
@@ -47,4 +48,9 @@ import com.andresantos.cursomc.services.CategoriaService;
 		return ResponseEntity.noContent().build();
 	}
 	
+	@RequestMapping(value="/{id}", method=RequestMethod.DELETE)
+	public ResponseEntity<Void> delete(@PathVariable Integer id) {
+		service.delete(id);
+		return ResponseEntity.noContent().build();
+	}
 }
