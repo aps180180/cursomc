@@ -27,4 +27,10 @@ public class CategoriaService {
 		obj.setId(null); // para garantir que estou inserindo sempre uma categoria nova
 		return repo.save(obj);
 	}
+	
+	public Categoria update (Categoria obj) {
+		find(obj.getId()); // chamo o metodo find para buscar o objeto no banco
+		return repo.save(obj);
+	}
+	
 }

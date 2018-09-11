@@ -29,16 +29,22 @@ import com.andresantos.cursomc.services.CategoriaService;
 	}
 
 	@RequestMapping(method=RequestMethod.POST)
-	public ResponseEntity<Void> insert (@RequestBody Categoria obj){
+	public ResponseEntity<Categoria> insert (@RequestBody Categoria obj){
 		
 		obj = service.insert(obj);
 		// retorna o uri da categoria que acabou de ser inserida
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest()
 				.path("/{id}").buildAndExpand(obj.getId()).toUri();
 		
-		return ResponseEntity.created(uri).build();
+		return ResponseEntity.created(uri).build();	
 	
+	}
 	
+	@RequestMapping(value="/{id}", method=RequestMethod.PUT)
+	public ResponseEntity<Categoria> update(@RequestBody Categoria obj,@PathVariable Integer id){
+		obj.setId(id); // garantir  que objeto a ser atualizado corresponde ao objeto passado no método
+		obj = service.update(obj);
+		return ResponseEntity.noContent().build();
 	}
 	
 }
