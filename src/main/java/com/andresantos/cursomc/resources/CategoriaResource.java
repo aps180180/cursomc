@@ -4,6 +4,8 @@ import java.net.URI;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
@@ -35,8 +37,8 @@ import com.andresantos.cursomc.services.CategoriaService;
 	}
 
 	@RequestMapping(method=RequestMethod.POST)
-	public ResponseEntity<Categoria> insert (@RequestBody Categoria obj){
-		
+	public ResponseEntity<Categoria> insert (@Valid @RequestBody CategoriaDTO objDTO){
+		Categoria obj = service.fromDTO(objDTO);
 		obj = service.insert(obj);
 		// retorna o uri da categoria que acabou de ser inserida
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest()
@@ -47,7 +49,8 @@ import com.andresantos.cursomc.services.CategoriaService;
 	}
 	
 	@RequestMapping(value="/{id}", method=RequestMethod.PUT)
-	public ResponseEntity<Categoria> update(@RequestBody Categoria obj,@PathVariable Integer id){
+	public ResponseEntity<Categoria> update(@Valid @RequestBody CategoriaDTO objDTO,@PathVariable Integer id){
+		Categoria obj = service.fromDTO(objDTO);
 		obj.setId(id); // garantir  que objeto a ser atualizado corresponde ao objeto passado no método
 		obj = service.update(obj);
 		return ResponseEntity.noContent().build();
