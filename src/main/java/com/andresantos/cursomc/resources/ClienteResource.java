@@ -1,5 +1,6 @@
 package com.andresantos.cursomc.resources;
 
+import java.net.URI;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -14,9 +15,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.andresantos.cursomc.domain.Cliente;
 import com.andresantos.cursomc.dto.ClienteDTO;
+import com.andresantos.cursomc.dto.ClienteNewDTO;
 import com.andresantos.cursomc.services.ClienteService;
 
 @RestController
@@ -32,6 +35,19 @@ public class ClienteResource {
 		
 		
 		return ResponseEntity.ok().body(obj);
+	}
+	
+	
+	@RequestMapping(method=RequestMethod.POST)
+	public ResponseEntity<Cliente> insert (@Valid @RequestBody ClienteNewDTO objDTO){
+		Cliente obj = service.fromDTO(objDTO);
+		obj = service.insert(obj);
+		// retorna o uri da categoria que acabou de ser inserida
+		URI uri = ServletUriComponentsBuilder.fromCurrentRequest()
+				.path("/{id}").buildAndExpand(obj.getId()).toUri();
+		
+		return ResponseEntity.created(uri).build();	
+	
 	}
 	
 	
