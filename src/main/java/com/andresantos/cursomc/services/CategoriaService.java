@@ -36,8 +36,9 @@ public class CategoriaService {
 	}
 	
 	public Categoria update (Categoria obj) {
-		find(obj.getId()); // chamo o metodo find para buscar o objeto no banco
-		return repo.save(obj);
+		Categoria  newObj = find(obj.getId()); // chamo o metodo find para buscar o objeto no banco		
+		updateData(newObj,obj);		
+		return repo.save(newObj);
 	}
 	
 	public void delete (Integer id) {
@@ -62,6 +63,11 @@ public class CategoriaService {
 	
 	public Categoria fromDTO(CategoriaDTO objDTO){
 		return new Categoria(objDTO.getId(), objDTO.getNome());
+	}
+	
+	private void updateData(Categoria newObj, Categoria obj) {
+		newObj.setNome(obj.getNome());
+		
 	}
 	
 }

@@ -31,10 +31,8 @@ public class ClienteService {
 	}
 	
 	public Cliente update (Cliente obj) {
-		Cliente  newObj = find(obj.getId()); // chamo o metodo find para buscar o objeto no banco
-		
-		updateData(newObj,obj);
-		
+		Cliente  newObj = find(obj.getId()); // chamo o metodo find para buscar o objeto no banco		
+		updateData(newObj,obj);		
 		return repo.save(newObj);
 	}
 	
